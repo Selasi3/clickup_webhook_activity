@@ -20,7 +20,6 @@ class TaskActivityService:
             if task_data["event"] in self.valid_events:
                 exist = await self.get_task_activity(task_data["task_id"])
                 format = await self.format_data(task_data)
-                # print(f"DEBUGPRINT[1]: task_activity.py:24: format={format}")
                 # print({"exist": exist})
 
                 db = await get_database()

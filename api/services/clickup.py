@@ -1,12 +1,9 @@
 import httpx
-
-CLICKUP_API_KEY = ''
-CLICKUP_TEAM_ID=''
-WEBHOOK_ENDPOINT = ""
+from api.config import clickup_settings
 
 class ClickUpServices:
     def __init__(self):
-        self.api_key = CLICKUP_API_KEY
+        self.api_key = clickup_settings.CLICKUP_API_KEY
 
     def get_space(self, space_id: str):
         url = "https://api.clickup.com/api/v2/space/" + space_id
@@ -44,9 +41,9 @@ class ClickUpServices:
 
     def create_webhook(
         self,
-        team_id: str = CLICKUP_TEAM_ID
+        team_id: str = clickup_settings.CLICKUP_TEAM_ID
     ):
-        webhook_endpoint = WEBHOOK_ENDPOINT
+        webhook_endpoint = clickup_settings.CLICKUP_WEBHOOK_ENDPOINT
 
         headers = {
             'Authorization': self.api_key,
@@ -83,7 +80,7 @@ class ClickUpServices:
 
     def get_webhooks(
         self,
-        team_id: str = CLICKUP_TEAM_ID,
+        team_id: str = clickup_settings.CLICKUP_TEAM_ID,
     ):
         url = "https://api.clickup.com/api/v2/team/" + team_id + "/webhook"
 
@@ -114,7 +111,6 @@ class ClickUpServices:
 
         try:
             response = httpx.delete(url, headers=headers)
-            print(f"DEBUGPRINT[2]: clickup.py:82: response={response}")
 
             if response.status_code == 200:
                 print("Webhook deleted successfully")

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.services.clickup import ClickUpServices
+from api.config import clickup_settings
 
 from api.db import (
     check_db_connection,
@@ -24,8 +25,6 @@ app.include_router(clickup_router.router)
 app.add_event_handler("startup", check_db_connection)
 app.add_event_handler("shutdown", close_database_connection)
 
-WEBHOOK_ENDPOINT = ""
-
 @app.on_event("startup")
 async def initialize_webhook():
     clickup_accessor = ClickUpServices()
@@ -33,7 +32,7 @@ async def initialize_webhook():
 
     webhooks = response["webhooks"]
 
-    webhook_endpoint = WEBHOOK_ENDPOINT
+    webhook_endpoint = clickup_settings.CLICKUP_WEBHOOK_ENDPOINT
     jesse_webhooks = [item for item in webhooks if item['endpoint'] == webhook_endpoint and item['health']['status'] == 'active' ]
     webhooks_inactive = [item for item in webhooks if item['endpoint'] == webhook_endpoint and item['health']['status'] != 'active' ]
 

@@ -1,10 +1,8 @@
 from motor.motor_asyncio import AsyncIOMotorClient
+from api.config import mongo_db_settings
 
-MONGODB_URL=""
-MONGODB_NAME=""
-
-DATABASE_URL = MONGODB_URL
-DATABASE_NAME = MONGODB_NAME
+DATABASE_URL = mongo_db_settings.MONGODB_URL
+DATABASE_NAME = mongo_db_settings.MONGODB_NAME
 
 class Database:
     client: AsyncIOMotorClient = None
