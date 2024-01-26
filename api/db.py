@@ -1,7 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
-MONGODB_URL="mongodb+srv://abdul:oi9IGdBI2Iq8Ft1W@cluster0.cedixly.mongodb.net/?retryWrites=true&w=majority"
-MONGODB_NAME="clickup-webhook-activity"
+MONGODB_URL=""
+MONGODB_NAME=""
 
 DATABASE_URL = MONGODB_URL
 DATABASE_NAME = MONGODB_NAME

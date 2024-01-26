@@ -24,7 +24,7 @@ app.include_router(clickup_router.router)
 app.add_event_handler("startup", check_db_connection)
 app.add_event_handler("shutdown", close_database_connection)
 
-WEBHOOK_ENDPOINT = "https://5f58-154-160-27-205.ngrok-free.app/clickup/webhook"
+WEBHOOK_ENDPOINT = ""
 
 @app.on_event("startup")
 async def initialize_webhook():

@@ -1,8 +1,8 @@
 import httpx
 
-CLICKUP_API_KEY = 'pk_66732367_D6O7NF1MYYSM6BJMFNBRY35UIW8N3GOK'
-CLICKUP_TEAM_ID='9003075385'
-WEBHOOK_ENDPOINT = "https://5f58-154-160-27-205.ngrok-free.app/clickup/webhook"
+CLICKUP_API_KEY = ''
+CLICKUP_TEAM_ID=''
+WEBHOOK_ENDPOINT = ""
 
 class ClickUpServices:
     def __init__(self):
