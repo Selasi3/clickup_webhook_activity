@@ -8,6 +8,40 @@ class ClickUpServices:
     def __init__(self):
         self.api_key = CLICKUP_API_KEY
 
+    def get_space(self, space_id: str):
+        url = "https://api.clickup.com/api/v2/space/" + space_id
+
+        headers = {
+            'Authorization': self.api_key,
+            'Content-Type': 'application/json'
+        }
+
+        try:
+            response = httpx.get(url, headers=headers)
+
+            if response.status_code == 200:
+                print("Space retrieved successfully")
+                return response.json()
+        except Exception as e:
+            print(f"Request failed: {str(e)}")
+
+    def get_task(self, task_id: str,):
+        url = "https://api.clickup.com/api/v2/task/" + task_id
+
+        headers = {
+            'Authorization': self.api_key,
+            'Content-Type': 'application/json'
+        }
+
+        try:
+            response = httpx.get(url, headers=headers)
+
+            if response.status_code == 200:
+                print("Task data retrieved successfully")
+                return response.json()
+        except Exception as e:
+            print(f"Request failed: {str(e)}")
+
     def create_webhook(
         self,
         team_id: str = CLICKUP_TEAM_ID
