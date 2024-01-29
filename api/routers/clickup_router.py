@@ -25,3 +25,12 @@ async def clickup_webhook(request: Request):
         f.write(str(payload) + "\n")
 
     return {"status": "ok"}
+
+@router.get("/project_activities")
+async def get_project_activities(project_name: str = "Levr"):
+    try:
+        activities = await task_activity_service.get_activities_by_project(project_name)
+        return {"success": True, "activities": activities}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
