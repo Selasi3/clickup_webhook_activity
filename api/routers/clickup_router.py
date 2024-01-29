@@ -16,17 +16,11 @@ clickup_accessor = ClickUpServices()
 async def clickup_webhook(request: Request):
     print("Received webhook event from ClickUp")
 
-    # Handle the ClickUp task event
-
     # Log the event to a file
     payload = await request.json()
 
     await task_activity_service.create_task_activity(payload)
 
-    with open("webhook.log", "a") as f:
-        f.write(str(payload) + "\n")
-
-    return {"status": "ok"}
 
 @router.get("/project_activities")
 async def get_project_activities(project_name: str = "Levr"):
@@ -54,4 +48,3 @@ async def get_webhooks():
         return webhooks
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-

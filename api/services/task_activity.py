@@ -2,11 +2,14 @@ from datetime import datetime, timedelta
 from api.db import get_database
 from api.services.clickup import ClickUpServices
 from api.models.task_activity import TaskActivity, TaskHistory
+from api.config import mongo_db_settings
+
 
 clickup_service = ClickUpServices()
 
 class TaskActivityService:
     def __init__(self):
+        self.db_name = "task_activity"
         self.test_projects = ["Jesse AI", "Mediboard", "Levr"]
         self.valid_events = [
             "taskCreated",
@@ -38,7 +41,7 @@ class TaskActivityService:
                         event=task_data["event"],
                     )
 
-                    result = await db["task_activity"].update_one(
+                    result = await db[self.db_name].update_one(
                         {"task_id": task_data["task_id"]},
                         {
                             "$set": {
@@ -73,7 +76,7 @@ class TaskActivityService:
                     result = {}
                     if task_data_format["project"] in self.test_projects:
                         # print(task)
-                        result = await db["task_activity"].insert_one(task.dict())
+                        result = await db[self.db_name].insert_one(task.dict())
                     return {"success": True, "result": result}
             else:
                 return {"success": False, "result": "Event not in scope"}
@@ -84,16 +87,16 @@ class TaskActivityService:
 
     async def get_task_activity(self, task_id):
         db = await get_database()
-        task_activity = await db["task_activity"].find_one({"task_id": task_id})
+        task_activity = await db[self.db_name].find_one({"task_id": task_id})
         return task_activity
 
     async def update_task_activity(self, task_id, task_activity):
         db = await get_database()
-        await db["task_activity"].replace_one({"task_id": task_id}, task_activity)
+        await db[self.db_name].replace_one({"task_id": task_id}, task_activity)
 
     async def delete_task_activity(self, task_id):
         db = await get_database()
-        await db["task_activity"].delete_one({"task_id": task_id})
+        await db[self.db_name].delete_one({"task_id": task_id})
 
     async def format_data(self, task_data):
         updates = {}
@@ -197,11 +200,19 @@ class TaskActivityService:
             filtered_tasks.append(filtered_task)
 
         return filtered_tasks
+
+
     async def get_activities_by_project(self, project_name):
         try:
             db = await get_database()
-            activities = await db["task_activity"].find({"current.project": project_name}).to_list(length=None)
+            activities = []
+            query = {
+                "current.project": project_name
+            }
+            async for activity in db[self.db_name].find(query, {"_id": 0}):
+                activities.append(activity)
             return activities
+
         except Exception as e:
             print(f"An error occurred while fetching project activities: {str(e)}")
             raise
