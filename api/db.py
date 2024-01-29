@@ -37,5 +37,5 @@ async def check_db_connection():
 
         return True
     except Exception as e:
-        logging.error(f"Error connecting to the database: {e}")
+        print(f"Error connecting to the database: {e}")
         return False

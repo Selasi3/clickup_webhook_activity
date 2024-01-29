@@ -22,8 +22,8 @@ app.add_middleware(
 
 app.include_router(clickup_router.router)
 
-app.add_event_handler("startup", check_db_connection)
 app.add_event_handler("shutdown", close_database_connection)
+app.add_event_handler("startup", check_db_connection)
 
 @app.on_event("startup")
 async def initialize_webhook():
@@ -32,7 +32,7 @@ async def initialize_webhook():
 
     webhooks = response["webhooks"]
 
-    webhook_endpoint = clickup_settings.CLICKUP_WEBHOOK_ENDPOINT
+    webhook_endpoint="https://clickupwebhooks-1-l9057304.deta.app/clickup/webhook"
     jesse_webhooks = [item for item in webhooks if item['endpoint'] == webhook_endpoint and item['health']['status'] == 'active' ]
     webhooks_inactive = [item for item in webhooks if item['endpoint'] == webhook_endpoint and item['health']['status'] != 'active' ]
 

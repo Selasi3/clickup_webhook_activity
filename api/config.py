@@ -17,7 +17,6 @@ load_dotenv(envars)
 class ClickupSettings(BaseSettings):
     CLICKUP_API_KEY: str
     CLICKUP_TEAM_ID: str
-    CLICKUP_WEBHOOK_ENDPOINT: str
 
 @lru_cache()
 class MongoDBSettings(BaseSettings):

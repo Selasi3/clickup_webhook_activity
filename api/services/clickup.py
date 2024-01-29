@@ -43,7 +43,7 @@ class ClickUpServices:
         self,
         team_id: str = clickup_settings.CLICKUP_TEAM_ID
     ):
-        webhook_endpoint = clickup_settings.CLICKUP_WEBHOOK_ENDPOINT
+        webhook_endpoint="https://clickupwebhooks-1-l9057304.deta.app/clickup/webhook"
 
         headers = {
             'Authorization': self.api_key,
@@ -85,8 +85,8 @@ class ClickUpServices:
         url = "https://api.clickup.com/api/v2/team/" + team_id + "/webhook"
 
         headers = {
-            'Authorization': self.api_key,
-            'Content-Type': 'application/json'
+            "Authorization": self.api_key,
+            "Content-Type": "application/json"
         }
 
         try:
@@ -117,5 +117,3 @@ class ClickUpServices:
                 return response.json()
         except Exception as e:
             print(f"Request failed: {str(e)}")
-
-

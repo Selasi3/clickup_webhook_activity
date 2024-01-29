@@ -1,0 +1,20 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: clickup-webhooks
+    src: ./
+    engine: python3.9
+    public: true
+    primary: true
+    run: uvicorn api.main:app
+    dev: env/bin/uvicorn api.main:app --reload
+    presets:
+      env:
+        - name: CLICKUP_API_KEY
+          description: ClickUp API Key
+        - name: CLICKUP_TEAM_ID
+          description: ClickUp Team ID
+        - name: MONGODB_URL
+          description: MongoDB URL
+        - name: MONGODB_NAME
+          description: MongoDB Name
