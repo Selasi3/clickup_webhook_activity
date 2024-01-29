@@ -7,7 +7,7 @@ clickup_service = ClickUpServices()
 
 class TaskActivityService:
     def __init__(self):
-        self.test_projects = ["Jesse AI", "Mediboard"]
+        self.test_projects = ["Jesse AI", "Mediboard", "Levr"]
         self.valid_events = [
             "taskCreated",
             "taskUpdated",
@@ -197,3 +197,11 @@ class TaskActivityService:
             filtered_tasks.append(filtered_task)
 
         return filtered_tasks
+    async def get_activities_by_project(self, project_name):
+        try:
+            db = await get_database()
+            activities = await db["task_activity"].find({"current.project": project_name}).to_list(length=None)
+            return activities
+        except Exception as e:
+            print(f"An error occurred while fetching project activities: {str(e)}")
+            raise
